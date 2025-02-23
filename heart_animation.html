@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إرسال سؤال إلى تيليجرام</title>
+</head>
+<body>
+    <h2>أدخل سؤالك:</h2>
+    <form id="questionForm">
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" required>
+        <br>
+        <label for="question">السؤال:</label>
+        <textarea id="question" required></textarea>
+        <br>
+        <button type="submit">إرسال</button>
+    </form>
+
+    <script>
+        document.getElementById("questionForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById("name").value;
+            const question = document.getElementById("question").value;
+
+            const response = await fetch("https://your-worker-url.workers.dev", { // استبدل هذا برابط Cloudflare Worker
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, question })
+            });
+
+            if (response.ok) {
+                alert("تم إرسال سؤالك بنجاح!");
+            } else {
+                alert("حدث خطأ أثناء الإرسال!");
+            }
+        });
+    </script>
+</body>
+</html>
